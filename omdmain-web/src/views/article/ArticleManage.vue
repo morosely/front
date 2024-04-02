@@ -1,8 +1,9 @@
 <script setup>
 import { Edit, Delete } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+import {ElMessage,ElMessageBox} from 'element-plus'
 //文章列表查询
-import { articleListService } from '@/api/article.js'
+import { articleListService,articleAddService } from '@/api/article.js'
 
 
 //文章分类数据模型
@@ -20,7 +21,7 @@ const articles = ref([])
 //分页条数据模型
 const pageNum = ref(1)//当前页
 const total = ref(20)//总条数
-const pageSize = ref(3)//每页条数
+const pageSize = ref(5)//每页条数
 
 //当每页条数发生了变化，调用此函数
 const onSizeChange = (size) => {
@@ -87,10 +88,24 @@ const tokenStore = useTokenStore();
 //上传图片成功回调
 const uploadSuccess = (img) => {
     //img就是后台响应的数据，格式为：{code:状态码，message：提示信息，data: 图片的存储地址}
-    console.info("==========> img.code=" + img.code+", img.message="+img.message+", img.data="+img.data);
+    //console.info("==========> img.code=" + img.code+", img.message="+img.message+", img.data="+img.data);
     articleModel.value.coverImg = img.data
 }
+
+//添加文章
+const addArticle=async (state)=>{
+    articleModel.value.state = state
+    let result = await articleAddService(articleModel.value);
+    console.info("==========> result.message=" + result.message);
+    ElMessage.success(result.message?result.message:'添加成功')
+    //再次调用getArticles,获取文章
+    getArticles()
+    //隐藏抽屉
+    visibleDrawer.value=false
+}
+
 </script>
+
 <template>
     <el-card class="page-container">
         <template #header>
@@ -184,8 +199,8 @@ const uploadSuccess = (img) => {
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">发布</el-button>
-                    <el-button type="info">草稿</el-button>
+                    <el-button type="primary"  @click="addArticle('已发布')">发布</el-button>
+                    <el-button type="info" @click="addArticle('草稿')">草稿</el-button>
                 </el-form-item>
             </el-form>
         </el-drawer>
