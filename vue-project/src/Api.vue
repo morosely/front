@@ -6,6 +6,7 @@
 
     //声明函数
     function increment(){
+        //count++;
         count.value++;
     }
 

@@ -1,28 +1,48 @@
 <script setup>
-    import {articleGetAllService,articleSearchService} from '@/api/article.js';
-    import {ref} from 'vue';
-    
+    import { articleGetAllService, articleSearchService } from '@/api/article.js';
+    import { ref } from 'vue';
+
     //定义响应式数据  ref
     const articleList = ref([]);
 
     //获取所有文章数据
+
+    //发送异步请求,获取所有文章数据
+    // axios.get('http://localhost:8080/article/getAll')
+    // .then(result=>{
+    //     //把服务器相应的数据保存起来
+    //     articlelist.value = result.data;
+    // }).catch(err=>{
+    //     console.log(err);
+    // });
+
     //同步获取articleGetAllService的返回结果  async await
-    const getAllArticle = async function(){
+    const getAllArticle = async function () {
         let data = await articleGetAllService();
         articleList.value = data;
     }
     getAllArticle();
-   
+
     //定义响应式数据 searchConditions
     const searchConditions = ref({
-        category:'',
-        state:''
+        category: '',
+        state: ''
     })
 
     //声明search函数
-    const search = async function(){
+    // const search = function () {
+    // //发送请求,完成搜索
+    // axios.get('http://localhost:8080/article/search', {params:{...searchconditions.value}})
+    //     .then(result => {
+    //         articleList.value = result.data
+    //     }).catch(err => {
+    //         console.log(err);
+    //     });
+    // }
+
+    const search = async function () {
         //文章搜索
-        let data = await articleSearchService({...searchConditions.value});
+        let data = await articleSearchService({ ...searchConditions.value });
         articleList.value = data;
     }
 
@@ -48,11 +68,11 @@
                 <th>状态</th>
                 <th>操作</th>
             </tr>
-            <tr v-for="(article,index) in articleList">
-                <td>{{article.title}}</td>
-                <td>{{article.category}}</td>
-                <td>{{article.time}}</td>
-                <td>{{article.state}}</td>
+            <tr v-for="(article, index) in articleList">
+                <td>{{ article.title }}</td>
+                <td>{{ article.category }}</td>
+                <td>{{ article.time }}</td>
+                <td>{{ article.state }}</td>
                 <td>
                     <button>编辑</button>
                     <button>删除</button>
