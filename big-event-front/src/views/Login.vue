@@ -59,6 +59,8 @@ const register = async () => {
 }
 
 //用于登陆事件的函数
+import { useRouter } from 'vue-router'
+const router = useRouter();
 const login = async () => {
     let result = await loginService(registerData.value);
     // if (result.code === 0) {
@@ -69,6 +71,7 @@ const login = async () => {
     // alert(result.message ? result.message : '登陆成功');
 
     ElMessage.success('登陆成功');
+    router.push('/');
 }
 
 //定义函数，清空模型数据

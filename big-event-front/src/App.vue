@@ -1,9 +1,12 @@
 <script setup>
-    //导入Login.vue
-    import LonginVue from '@/views/Login.vue'
+    //导入Login.vue 路由去控制界面展示
+    // import LonginVue from '@/views/Login.vue'
+    // import LayoutVue from '@/views/Layout.vue'
 </script>
 
 <template>
-    <LonginVue/>
+    <!-- <LonginVue/>
+    <LayoutVue/> -->
+    <router-view/>
 </template>
 
