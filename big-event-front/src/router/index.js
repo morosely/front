@@ -12,7 +12,7 @@ import UserResetPasswordVue from '@/views/user/UserResetPassword.vue'
 const routes = [
     { path: '/login', component: LoginVue },
     { path: '/', component: LayoutVue ,
-        //重定向
+        //重定向 页面/重定向到/article/manage页面
         redirect: '/article/manage',
         //子路由
         children: [
