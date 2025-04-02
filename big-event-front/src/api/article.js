@@ -1,5 +1,6 @@
 //导入请求工具request.js
 import request from '@/utils/request.js'
+
 //导入token状态
 import { useTokenStore } from '@/stores/token.js'
 
@@ -20,4 +21,19 @@ import { useTokenStore } from '@/stores/token.js'
 export const articleCategoryListService = () => {
     //通过请求头Authorization携带token
     return request.get('/category')
+}
+
+//添加文章分类
+export const articleCategoryAddService = (categoryModel) => {
+    return request.post('/category', categoryModel)
+}
+
+//修改分类
+export const articleCategoryUpdateService = (categoryModel)=>{
+    return request.put('/category',categoryModel)
+}
+
+//删除分类
+export const articleCategoryDeleteService = (id) => {
+    return request.delete('/category?id='+id)
 }
