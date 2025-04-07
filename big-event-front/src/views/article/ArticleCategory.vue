@@ -1,11 +1,11 @@
 <script setup>
-import {Edit,Delete} from '@element-plus/icons-vue'
+import { Edit, Delete } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-import { ElMessage,ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 const categorys = ref([])
 
 //获取所有文章分类数据
-import { articleCategoryListService,articleCategoryAddService,articleCategoryUpdateService,articleCategoryDeleteService} from '@/api/article.js'
+import { articleCategoryListService, articleCategoryAddService, articleCategoryUpdateService, articleCategoryDeleteService } from '@/api/article.js'
 const getAllCategory = async () => {
     let result = await articleCategoryListService();
     categorys.value = result.data;
@@ -32,46 +32,37 @@ const rules = {
 }
 
 //访问后台，添加文章分类
-const addCategory = async ()=>{
+const addCategory = async () => {
     let result = await articleCategoryAddService(categoryModel.value);
-    ElMessage.success(result.message? result.message:'添加成功')
+    ElMessage.success(result.message ? result.message : '添加成功')
     //隐藏弹窗
     dialogVisible.value = false
     //再次访问后台接口，查询所有分类
     getAllCategory()
-}
-
-//编辑分类
-const updateCategory = async () => {
-    let result = await articleCategoryUpdateService(categoryModel.value)
-    ElMessage.success(result.message? result.message:'修改成功')
-    //隐藏弹窗
-    dialogVisible.value=false
-    //再次访问后台接口，查询所有分类
-    getAllCategory()
-}
-
-//关闭窗口，清空文本框内容
-const handleClose = ()=>{
-    //隐藏弹窗
-    dialogVisible.value = false
-    //清空数据
-    categoryModel.value.categoryName = ''
-    categoryModel.value.categoryAlias = ''
 }
 
 //弹窗标题
-const title=ref('')
+const title = ref('')
 
 //修改分类回显
 const updateCategoryEcho = (row) => {
     title.value = '修改分类'
     dialogVisible.value = true
     //将row中的数据赋值给categoryModel
-    categoryModel.value.categoryName=row.categoryName
-    categoryModel.value.categoryAlias=row.categoryAlias
+    categoryModel.value.categoryName = row.categoryName
+    categoryModel.value.categoryAlias = row.categoryAlias
     //修改的时候必须传递分类的id，所以扩展一个id属性
-    categoryModel.value.id=row.id
+    categoryModel.value.id = row.id
+}
+
+//编辑分类
+const updateCategory = async () => {
+    let result = await articleCategoryUpdateService(categoryModel.value)
+    ElMessage.success('修改成功')
+    //隐藏弹窗
+    dialogVisible.value = false
+    //再次访问后台接口，查询所有分类
+    getAllCategory()
 }
 
 //删除分类
@@ -88,7 +79,7 @@ const deleteCategory = (row) => {
         .then(async () => {
             //用户点击了确认
             let result = await articleCategoryDeleteService(row.id)
-            ElMessage.success(result.message?result.message:'删除成功')
+            ElMessage.success(result.message ? result.message : '删除成功')
             //再次调用getAllCategory，获取所有文章分类
             getAllCategory()
         })
@@ -100,6 +91,21 @@ const deleteCategory = (row) => {
             })
         })
 }
+
+//关闭窗口，清空文本框内容
+const handleClose = () => {
+    //隐藏弹窗
+    dialogVisible.value = false
+    //清空数据
+    categoryModel.value.categoryName = ''
+    categoryModel.value.categoryAlias = ''
+}
+
+//清空模型的数据
+const clearData = () => {
+    categoryModel.value.categoryName = '';
+    categoryModel.value.categoryAlias = '';
+}
 </script>
 
 <template>
@@ -108,7 +114,8 @@ const deleteCategory = (row) => {
             <div class="header">
                 <span>文章分类</span>
                 <div class="extra">
-                    <el-button type="primary" @click="dialogVisible = true; title = '添加分类'; clearData()">添加分类</el-button>
+                    <el-button type="primary"
+                        @click="dialogVisible = true; title = '添加分类'; clearData()">添加分类</el-button>
                 </div>
             </div>
         </template>
@@ -142,7 +149,8 @@ const deleteCategory = (row) => {
                 <span class="dialog-footer">
                     <!-- <el-button @click="dialogVisible = false">取消</el-button> -->
                     <el-button @click="handleClose">取消</el-button>
-                    <el-button type="primary" @click="title == '添加分类' ? addCategory() : updateCategory()"> 确认 </el-button>
+                    <el-button type="primary" @click="title == '添加分类' ? addCategory() : updateCategory()"> 确认
+                    </el-button>
                 </span>
             </template>
         </el-dialog>
