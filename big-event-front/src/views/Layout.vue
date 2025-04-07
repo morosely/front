@@ -133,7 +133,7 @@ const handleCommand = (command)=>{
                 <!-- <div style="width: 1290px; height: 570px;border: 1px solid red;">
                     内容展示区
                 </div> -->
-                <router-view></router-view>
+                <router-view/>
             </el-main>
             <!-- 底部区域 -->
             <el-footer>石基零售 ©2024 Created by POS 事业部 易海涛</el-footer>
