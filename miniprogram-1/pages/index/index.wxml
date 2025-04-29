@@ -1,0 +1,14 @@
+<!--index.wxml-->
+<navigation-bar title="易海涛外卖" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    {{msg}}
+    <button type="default" bindtap="getUserInfo">获取用户信息</button>
+    {{nickName}}
+    <image src="{{avatarUrl}}" style="width: 100px; height: 100px;"></image>
+    <button type="primary" bindtap="wxlogin">微信登录</button>
+    授权码：{{code}}
+    <button type="warn" bindtap="sendRequest">发送请求</button>
+    响应结果：{{result}}
+  </view>
+</scroll-view>
